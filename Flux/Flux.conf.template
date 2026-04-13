@@ -1,0 +1,79 @@
+conky.config = {
+--==============================================================================
+--  FLUX PRO - WSLg Final Precision Build (Font Correction)
+--==============================================================================
+    alignment = 'top_right',
+    gap_x = 50,
+    gap_y = 70,
+    maximum_width = 600,
+    minimum_height = 1000, 
+    minimum_width = 600,
+
+    -- Window Settings
+    own_window = true,
+    own_window_type = 'override',
+    own_window_transparent = true, 
+    own_window_argb_visual = true,
+    own_window_argb_value = 0,
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    
+    -- Text Rendering
+    draw_shades = true,
+    default_shade_color = '000000',
+    draw_outline = false,
+    
+    double_buffer = true,
+    update_interval = 2,
+    draw_borders = false,
+    no_buffers = true,
+    
+    use_xft = true,
+    font = 'Outfit:size=12',
+    uppercase = true,
+    override_utf8_locale = true,
+
+    -- Color Palette
+    default_color = 'FFFFFF',
+    color1 = 'FFFFFF',
+    color2 = 'F1FA8C', -- Yellow
+    color3 = 'FF79C6', -- Pink
+    color4 = '50FA7B', -- Green
+    color5 = '8BE9FD', -- Cyan
+    color6 = 'BD93F9', -- Purple
+}
+
+conky.text = [[
+${execi 600 bash __BASE_PATH__/scripts/weather.sh -g}\
+${voffset 15}${alignr 40}${color}${font Outfit:bold:size=48}${tztime Asia/Kathmandu %I:%M}${font Outfit:bold:size=24}${tztime Asia/Kathmandu %^p}${font}
+${voffset 5}${alignr 40}${color5}${font Outfit:bold:size=16}${tztime Asia/Kathmandu %A, %B %d}${font}
+
+# --- TIMELINE SECTION: SYSTEM ---
+${voffset 40}${alignr 40}${color2}${font Inter:black:size=18}SYSTEM${font}
+${voffset 5}${alignr 40}${color2}${font Dosis:bold:size=12}― · ― · ― · ― · ― · ― · ― · ―${font}
+${voffset 10}${alignr 40}${color5}${font Inter:bold:size=13}CPU LOAD ${color}${font Inter:bold:size=14}${execi 5 powershell.exe -c "[math]::Round((Get-Counter '\Processor Information(_Total)\% Processor Utility').CounterSamples.CookedValue)" | tr -d '\r'}%${font}
+# Native Linux Alternative: ${cpu cpu0}%
+${voffset 5}${alignr 40}${color5}${font Inter:bold:size=13}MEMORY ${color}${font Inter:bold:size=14}${execi 20 powershell.exe -c "(Get-CimInstance Win32_OperatingSystem | Foreach-Object { [math]::Round(((\$_.TotalVisibleMemorySize - \$_.FreePhysicalMemory)*100 / \$_.TotalVisibleMemorySize)) })" | tr -d '\r'}%${font}
+# Native Linux Alternative: ${memperc}%
+${image __BASE_PATH__/res/sys.png -p 580,181 -s 3x60}\
+
+# --- TIMELINE SECTION: GRAPHICS ---
+${voffset 35}${alignr 40}${color3}${font Outfit:black:size=18}GRAPHICS${font}
+${voffset 5}${alignr 40}${color3}${font Dosis:bold:size=12}― · ― · ― · ― · ― · ― · ― · ― · ― · ―${font}
+${voffset 10}${alignr 40}${color5}${font Outfit:bold:size=13}GPU UTIL ${color}${font Outfit:bold:size=14}${execi 5 nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits}%${font}
+${voffset 5}${alignr 40}${color5}${font Outfit:bold:size=13}TEMP ${color}${font Outfit:bold:size=14}${execi 5 nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits}°C${font}
+${image __BASE_PATH__/res/gpu.png -p 580,340 -s 3x60}\
+
+# --- TIMELINE SECTION: WEATHER ---
+${voffset 35}${alignr 40}${color6}${font Outfit:black:size=18}WEATHER${font}
+${voffset 5}${alignr 40}${color6}${font Dosis:bold:size=12}― · ― · ― · ― · ― · ― · ― · ― · ―${font}
+${voffset 10}${alignr 40}${color5}${font Inter:bold:size=13}CONDITION ${color}${font Inter:bold:size=14}${execi 600 bash __BASE_PATH__/scripts/weather.sh -d}${font}
+${voffset 5}${alignr 40}${color5}${font Inter:bold:size=13}TEMP ${color}${font Inter:bold:size=14}${execi 600 bash __BASE_PATH__/scripts/weather.sh -t}°C (H:${execi 600 bash __BASE_PATH__/scripts/weather.sh -tx}° L:${execi 600 bash __BASE_PATH__/scripts/weather.sh -tn}°)${font}
+${image __BASE_PATH__/res/wth.png -p 580,505 -s 3x60}\
+
+# --- TIMELINE SECTION: UPTIME ---
+${voffset 35}${alignr 40}${color4}${font Outfit:black:size=18}SESSION UPTIME${font}
+${voffset 5}${alignr 40}${color4}${font Dosis:bold:size=12}― · ― · ― · ― · ― · ― · ― · ― · ― · ― · ― · ― · ― · ― · ― · ―${font}
+${voffset 10}${alignr 40}${color5}${font Outfit:bold:size=13}SYSTEM STATUS ${color}${font Outfit:bold:size=14}ONLINE${font}
+${voffset 5}${alignr 40}${color5}${font Outfit:bold:size=13}TOTAL TIME ${color}${font Outfit:bold:size=14}${uptime}${font}
+${image __BASE_PATH__/res/foo.png -p 580,670 -s 3x60}\
+]]

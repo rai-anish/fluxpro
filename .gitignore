@@ -1,0 +1,3 @@
+# Ignore the dynamically generated configuration file
+# This ensures that your local path doesn't get uploaded to GitHub
+Flux/Flux.conf
