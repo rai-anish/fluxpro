@@ -1,6 +1,6 @@
 conky.config = {
 --==============================================================================
---  FLUX PRO - WSLg Final Precision Build (Font Correction)
+--  FLUX PRO - WSLg Conky Theme
 --==============================================================================
     alignment = 'top_right',
     gap_x = 50,
