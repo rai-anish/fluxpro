@@ -7,13 +7,13 @@ A minimalist, timeline-based dashboard optimized for **WSLg** (Windows 11) and m
 Here is how Flux Pro looks across various aesthetic setups:
 
 ### Setup 1: Picturesque Landscape
-![Picturesque Setup](assets/setup1.png)
+![Picturesque Setup](assets/lofi.jpg)
 
 ### Setup 2: Retro Gaming
-![Retro Setup](assets/setup2.png)
+![Retro Setup](assets/retro.png)
 
 ### Setup 3: Pixel Art Nature
-![Pixel Art Setup](assets/setup3.png)
+![Pixel Art Setup](assets/pokemon.png)
 ## ✨ Features
 - **Dynamic Timeline**: A unique vertical dot-and-bar design tracking your system history.
 - **Glassmorphic Elements**: Subtle transparency and vibrant pastel graphics.
