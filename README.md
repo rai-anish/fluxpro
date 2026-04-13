@@ -2,8 +2,18 @@
 
 A minimalist, timeline-based dashboard optimized for **WSLg** (Windows 11) and modern Linux desktop environments. Flux Pro features a sleek, high-precision aesthetic with vibrant pastel accents and a dual-font typography system.
 
-![Preview](preview.jpg) *(Add your preview image here)*
+## 🖼️ Previews
 
+Here is how Flux Pro looks across various aesthetic setups:
+
+### Setup 1: Picturesque Landscape
+![Picturesque Setup](assets/setup1.png)
+
+### Setup 2: Retro Gaming
+![Retro Setup](assets/setup2.png)
+
+### Setup 3: Pixel Art Nature
+![Pixel Art Setup](assets/setup3.png)
 ## ✨ Features
 - **Dynamic Timeline**: A unique vertical dot-and-bar design tracking your system history.
 - **Glassmorphic Elements**: Subtle transparency and vibrant pastel graphics.
