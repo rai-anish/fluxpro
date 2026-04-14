@@ -59,27 +59,27 @@ FluxPro/
 
 ```mermaid
 graph TB
-    subgraph Windows ["🪟 Windows 11"]
-        VBS["StartFluxPro.vbs\n(Startup folder)"]
-        PS["powershell.exe\n(CPU / RAM stats)"]
-        OWM_W["OpenWeatherMap API\n(via PowerShell)"]
+    subgraph Windows ["Windows 11"]
+        VBS["StartFluxPro.vbs<br/>(Startup folder)"]
+        PS["powershell.exe<br/>(CPU / RAM stats)"]
+        OWM_W["OpenWeatherMap API<br/>(via PowerShell)"]
     end
 
-    subgraph WSL2 ["🐧 WSL2 — Ubuntu"]
-        subgraph FluxPro ["📁 FluxPro/"]
-            CONFIG["config.user\n(timezone, alignment,\ncity, API key)"]
-            TEMPLATE["Flux.conf.template\n(__PLACEHOLDER__ vars)"]
-            CONF["Flux.conf\n(generated at runtime)"]
+    subgraph WSL2 ["WSL2 — Ubuntu"]
+        subgraph FluxPro ["FluxPro/"]
+            CONFIG["config.user<br/>(timezone, alignment,<br/>city, API key)"]
+            TEMPLATE["Flux.conf.template<br/>(__PLACEHOLDER__ vars)"]
+            CONF["Flux.conf<br/>(generated at runtime)"]
             START["start_flux.sh"]
             WEATHER["scripts/weather.sh"]
             FONTS["fonts/ + res/"]
         end
-        CONKY["🖥️ Conky Process"]
+        CONKY["Conky Process"]
         CACHE["~/.cache/weather.json"]
     end
 
-    subgraph Display ["🖼️ WSLg Display"]
-        WIDGET["Flux Pro Widget\non Desktop"]
+    subgraph Display ["WSLg Display"]
+        WIDGET["Flux Pro Widget<br/>on Desktop"]
     end
 
     VBS -->|"wsl.exe -e bash"| START
@@ -105,26 +105,26 @@ graph TB
 
 ```mermaid
 flowchart TD
-    A(["Windows boots"]) --> B["StartFluxPro.vbs runs\nfrom Startup folder"]
-    B --> C["wsl whoami → get username\nwslpath → get project path"]
-    C --> D["wsl.exe launches\nbash login shell"]
+    A(["Windows boots"]) --> B["StartFluxPro.vbs runs<br/>from Startup folder"]
+    B --> C["wsl whoami → username<br/>wslpath → get project path"]
+    C --> D["wsl.exe launches<br/>bash login shell"]
     D --> E["start_flux.sh"]
 
-    E --> F{config.user\nexists?}
-    F -->|No| ERR1(["❌ ERROR: copy\nconfig.user.example"])
-    F -->|Yes| G["Source config.user\nload all settings"]
+    E --> F{"config.user<br/>exists?"}
+    F -->|"No"| ERR1(["ERROR: copy<br/>config.user.example"])
+    F -->|"Yes"| G["Source config.user<br/>load all settings"]
 
-    G --> H["sed: substitute placeholders\nin Flux.conf.template\n→ write Flux.conf"]
+    G --> H["sed: substitute placeholders<br/>in Flux.conf.template<br/>write Flux.conf"]
 
-    H --> I["Poll xdpyinfo\nevery 2s, up to 60s"]
-    I --> J{Display\nready?}
-    J -->|Timeout| ERR2(["❌ No display found"])
-    J -->|Ready| K["killall conky\nsleep 1s"]
+    H --> I["Poll xdpyinfo<br/>every 2s, up to 60s"]
+    I --> J{"Display<br/>ready?"}
+    J -->|"Timeout"| ERR2(["No display found"])
+    J -->|"Ready"| K["killall conky<br/>sleep 1s"]
 
     K --> L["nohup conky -c Flux.conf &"]
-    L --> M{PID still\nalive after 2s?}
-    M -->|No| ERR3(["❌ Check /tmp/fluxpro.log"])
-    M -->|Yes| N(["✅ Flux Pro running"])
+    L --> M{"PID still<br/>alive after 2s?"}
+    M -->|"No"| ERR3(["Check /tmp/fluxpro.log"])
+    M -->|"Yes"| N(["Flux Pro running"])
 ```
 
 ---
@@ -145,7 +145,7 @@ sequenceDiagram
     C->>W: bash weather.sh -g  (fetch data)
     W->>CF: source config.user
     CF-->>W: CITY_QUERY, API_KEY
-    W->>PS: Invoke-RestMethod (WSL → Windows)
+    W->>PS: Invoke-RestMethod (WSL to Windows)
     PS->>API: GET /data/2.5/weather?q=...
     API-->>PS: JSON response
     PS-->>Cache: write weather.json
