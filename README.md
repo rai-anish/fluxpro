@@ -53,6 +53,113 @@ FluxPro/
 
 ---
 
+## 🗺️ Architecture & Flow Diagrams
+
+### System Architecture
+
+```mermaid
+graph TB
+    subgraph Windows ["🪟 Windows 11"]
+        VBS["StartFluxPro.vbs\n(Startup folder)"]
+        PS["powershell.exe\n(CPU / RAM stats)"]
+        OWM_W["OpenWeatherMap API\n(via PowerShell)"]
+    end
+
+    subgraph WSL2 ["🐧 WSL2 — Ubuntu"]
+        subgraph FluxPro ["📁 FluxPro/"]
+            CONFIG["config.user\n(timezone, alignment,\ncity, API key)"]
+            TEMPLATE["Flux.conf.template\n(__PLACEHOLDER__ vars)"]
+            CONF["Flux.conf\n(generated at runtime)"]
+            START["start_flux.sh"]
+            WEATHER["scripts/weather.sh"]
+            FONTS["fonts/ + res/"]
+        end
+        CONKY["🖥️ Conky Process"]
+        CACHE["~/.cache/weather.json"]
+    end
+
+    subgraph Display ["🖼️ WSLg Display"]
+        WIDGET["Flux Pro Widget\non Desktop"]
+    end
+
+    VBS -->|"wsl.exe -e bash"| START
+    START -->|"sources"| CONFIG
+    START -->|"sed substitution"| TEMPLATE
+    TEMPLATE -->|"generates"| CONF
+    START -->|"conky -c"| CONKY
+    CONF -->|"loaded by"| CONKY
+    CONKY -->|"execi every 5s"| PS
+    CONKY -->|"execi every 600s"| WEATHER
+    WEATHER -->|"sources"| CONFIG
+    WEATHER -->|"fetch & cache"| OWM_W
+    OWM_W -->|"JSON response"| CACHE
+    CACHE -->|"parsed by python3"| WEATHER
+    WEATHER -->|"returns value"| CONKY
+    FONTS -->|"used by"| CONKY
+    CONKY -->|"renders to"| WIDGET
+```
+
+---
+
+### Launch Flow
+
+```mermaid
+flowchart TD
+    A(["Windows boots"]) --> B["StartFluxPro.vbs runs\nfrom Startup folder"]
+    B --> C["wsl whoami → get username\nwslpath → get project path"]
+    C --> D["wsl.exe launches\nbash login shell"]
+    D --> E["start_flux.sh"]
+
+    E --> F{config.user\nexists?}
+    F -->|No| ERR1(["❌ ERROR: copy\nconfig.user.example"])
+    F -->|Yes| G["Source config.user\nload all settings"]
+
+    G --> H["sed: substitute placeholders\nin Flux.conf.template\n→ write Flux.conf"]
+
+    H --> I["Poll xdpyinfo\nevery 2s, up to 60s"]
+    I --> J{Display\nready?}
+    J -->|Timeout| ERR2(["❌ No display found"])
+    J -->|Ready| K["killall conky\nsleep 1s"]
+
+    K --> L["nohup conky -c Flux.conf &"]
+    L --> M{PID still\nalive after 2s?}
+    M -->|No| ERR3(["❌ Check /tmp/fluxpro.log"])
+    M -->|Yes| N(["✅ Flux Pro running"])
+```
+
+---
+
+### Weather Data Flow
+
+```mermaid
+sequenceDiagram
+    participant C as Conky
+    participant W as weather.sh
+    participant CF as config.user
+    participant PS as powershell.exe
+    participant API as OpenWeatherMap API
+    participant Cache as ~/.cache/weather.json
+    participant PY as python3
+
+    Note over C,W: Every 600 seconds (execi 600)
+    C->>W: bash weather.sh -g  (fetch data)
+    W->>CF: source config.user
+    CF-->>W: CITY_QUERY, API_KEY
+    W->>PS: Invoke-RestMethod (WSL → Windows)
+    PS->>API: GET /data/2.5/weather?q=...
+    API-->>PS: JSON response
+    PS-->>Cache: write weather.json
+
+    Note over C,W: Every 600 seconds (display values)
+    C->>W: bash weather.sh -d / -t / -tx / -tn
+    W->>Cache: open weather.json
+    Cache-->>PY: raw JSON
+    PY-->>W: parsed value
+    W-->>C: "Few Clouds" / "26" / etc.
+```
+
+
+
 ## 🛠️ Prerequisites
 
 - **WSL2** with a Linux distro (Ubuntu recommended) — or a native Linux desktop
