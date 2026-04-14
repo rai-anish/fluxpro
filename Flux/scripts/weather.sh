@@ -1,23 +1,36 @@
 #!/bin/bash
-# weather.sh - Anish Edition (WSL Optimized & Robust)
+# weather.sh — reads city and API key from Flux/config.user
 
-# Configuration (Change these or set as environment variables)
+# ── Locate config.user relative to this script ─────────────────────────────
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CONFIG_FILE="$SCRIPT_DIR/../config.user"
+
+if [[ -f "$CONFIG_FILE" ]]; then
+    source "$CONFIG_FILE"
+fi
+
+# ── Settings (fall back to environment variables if config.user is missing) ─
 city_query="${CITY_QUERY:-Kathmandu,np}"
-api_key="${API_KEY:-e46d6b1c945f2e9983f0735f8928ea2f}"
+api_key="${API_KEY:-}"
 unit="metric"
 lang="en"
 cache_file="${HOME}/.cache/weather.json"
+
+if [[ -z "$api_key" ]]; then
+    echo "N/A"
+    exit 1
+fi
 
 mkdir -p "${HOME}/.cache"
 
 get_data() {
     url="https://api.openweathermap.org/data/2.5/weather?q=${city_query}&appid=${api_key}&units=${unit}&lang=${lang}"
-    
+
     # Try powershell first (best for WSL networking)
     if command -v powershell.exe &> /dev/null; then
         powershell.exe -c "Invoke-RestMethod -Uri '$url' -UseBasicParsing | ConvertTo-Json -Depth 10" > "$cache_file" 2>/dev/null
     fi
-    
+
     # Fallback to curl if powershell failed or produced empty file
     if [ ! -s "$cache_file" ]; then
         curl -s "$url" -o "$cache_file"
@@ -29,7 +42,7 @@ parse_json() {
         echo "Updating..."
         return
     fi
-    
+
     # Python parser with utf-8-sig to handle PowerShell's potential BOMs
     # and explicit error reporting for API limit/key issues
     /usr/bin/python3 -c "

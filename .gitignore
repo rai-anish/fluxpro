@@ -1,3 +1,15 @@
-# Ignore the dynamically generated configuration file
-# This ensures that your local path doesn't get uploaded to GitHub
+# Auto-generated Conky config (rebuilt from Flux.conf.template on every launch)
+# Ignore both the one in Flux/ and any stray copy at the repo root
 Flux/Flux.conf
+Flux.conf
+
+# Personal user settings — never commit your own timezone / API key / position
+Flux/config.user
+
+# Weather data cache
+~/.cache/weather.json
+.cache/
+
+# OS noise
+.DS_Store
+Thumbs.db

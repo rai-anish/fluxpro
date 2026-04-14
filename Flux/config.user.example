@@ -1,0 +1,20 @@
+# ── FLUX PRO - User Configuration ─────────────────────────
+# Copy this file to config.user and edit the values below.
+# Never edit Flux.conf directly — it gets overwritten on launch.
+
+# Your timezone (find yours: timedatectl list-timezones)
+TIMEZONE="Asia/Kathmandu"
+
+# Widget position: top_right, top_left, bottom_right, bottom_left
+ALIGNMENT="top_right"
+
+# Gap from screen edge in pixels (adjust for your resolution/scaling)
+GAP_X=50
+GAP_Y=70
+
+# ── Weather ────────────────────────────────────────────────
+# City query: "<CityName>,<2-letter country code>"  e.g. London,gb  /  Tokyo,jp
+CITY_QUERY="Kathmandu,np"
+
+# OpenWeatherMap API key — get a free one at https://openweathermap.org/api
+API_KEY="your_openweathermap_api_key_here"
