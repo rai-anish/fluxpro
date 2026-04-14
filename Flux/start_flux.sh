@@ -23,18 +23,14 @@ sed \
 
 echo -n "🚀 Initializing Flux Pro UI... Please wait"
 
-# Wait for display
+# Wait for display 
 for i in $(seq 1 30); do
-    if xdpyinfo &>/dev/null 2>&1; then
-        echo -e "\n✅ Display found! Launching Conky..."
+    if [ -S "/tmp/.X11-unix/X0" ] || xdpyinfo &>/dev/null 2>&1; then
+        echo -e "\n● Ready"
         break
     fi
     echo -n "."
-    if [ $i -eq 30 ]; then
-        echo -e "\n❌ ERROR: Timeout waiting for display (WSLg). Check if your WSLg is working." >&2
-        exit 1
-    fi
-    sleep 2
+    sleep 1
 done
 
 killall conky 2>/dev/null
