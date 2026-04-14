@@ -12,9 +12,19 @@ ALIGNMENT="top_right"
 GAP_X=50
 GAP_Y=70
 
-# ── Weather ────────────────────────────────────────────────
-# City query: "<CityName>,<2-letter country code>"  e.g. London,gb  /  Tokyo,jp
+# Final Conky window mode
+# Valid values: normal, dock, panel, desktop, utility, override
+WINDOW_TYPE="override"
+
+# Startup behavior:
+# auto   = start once in normal mode, then switch to WINDOW_TYPE
+# direct = start directly in WINDOW_TYPE
+STARTUP_MODE="auto"
+
+# ── Weather ───────────────────────────────────────────────
+# City query format: "CityName,xx" where xx = 2-letter country code
+# Examples: "London,gb" / "Tokyo,jp" / "New York,us"
 CITY_QUERY="Kathmandu,np"
 
-# OpenWeatherMap API key — get a free one at https://openweathermap.org/api
+# Free API key from https://openweathermap.org/api
 API_KEY="your_openweathermap_api_key_here"

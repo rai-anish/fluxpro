@@ -1,72 +1,77 @@
-# Flux Pro Conky Theme
+# Flux Pro
 
-A minimalist, timeline-based Conky dashboard optimized for **WSLg** (Windows 11) and modern Linux desktop environments. Flux Pro features a sleek, high-precision aesthetic with a Dracula-inspired color palette, dual-font typography, real-time weather, and hardware monitoring.
+A polished Conky dashboard for WSLg and modern Linux desktops. Flux Pro combines a clean timeline layout, transparent desktop styling, live weather, and hardware monitoring in a portable package that can be installed, configured, and started with minimal setup.
 
-## 🖼️ Previews
+## Preview
 
-### Setup 1: Picturesque Landscape
-![Picturesque Setup](assets/lofi.jpg)
+### Setup 1
+![Flux Pro Preview 1](assets/lofi.jpg)
 
-### Setup 2: Retro Gaming
-![Retro Setup](assets/retro.png)
+### Setup 2
+![Flux Pro Preview 2](assets/retro.png)
 
-### Setup 3: Pixel Art Nature
-![Pixel Art Setup](assets/pokemon.png)
+### Setup 3
+![Flux Pro Preview 3](assets/pokemon.png)
 
----
+## Features
 
-## ✨ Features
+- Portable WSL-friendly launcher with `StartFluxPro.vbs`
+- Template-based Conky config generation
+- Automatic WSLg-safe startup fallback for `override` windows
+- OpenWeather integration with PowerShell and `curl` fallback
+- CPU and memory monitoring tuned for WSL accuracy
+- NVIDIA GPU utilization and temperature support
+- Bundled font installation
+- User configuration kept separate from tracked files
 
-- **Dynamic Timeline Layout** — Vertical dot-and-bar design tracking system sections.
-- **Glassmorphic Window** — Fully transparent, borderless overlay that sits below all windows.
-- **Dracula Color Palette** — Yellow, pink, green, cyan, and purple accent colors.
-- **Dual-Font Precision** — `Outfit` for headers, `Inter` for data, `Dosis` for timeline separators.
-- **Real-time Weather** — OpenWeatherMap integration via `weather.sh` (PowerShell + curl fallback).
-- **Hardware Stats** — CPU load, RAM usage (via PowerShell for WSL accuracy), NVIDIA GPU util & temp.
-- **Session Uptime** — Live system uptime display.
-- **Template-based Config** — `Flux.conf` is generated from `Flux.conf.template` at launch — no hardcoded paths.
-- **Portable Startup** — `StartFluxPro.vbs` auto-detects the WSL username and project path.
+## Project Structure
 
----
-
-## 📁 Project Structure
-
-```
+```text
 FluxPro/
 ├── Flux/
-│   ├── Flux.conf.template      # Conky config template (placeholders substituted at launch)
-│   ├── Flux.conf               # Auto-generated at runtime — do not edit (git-ignored)
-│   ├── config.user             # Your personal settings (git-ignored)
-│   ├── config.user.example     # Template for config.user — copy and edit this
-│   ├── start_flux.sh           # Main launch script (builds Flux.conf, waits for display, starts Conky)
+│   ├── Flux.conf.template
+│   ├── Flux.conf
+│   ├── config.user
+│   ├── config.user.example
+│   ├── start_flux.sh
 │   ├── fonts/
-│   │   └── Dosis/              # Bundled Dosis font files
-│   ├── res/                    # Sidebar accent images (sys.png, gpu.png, wth.png, foo.png)
+│   ├── res/
 │   └── scripts/
-│       └── weather.sh          # Weather fetcher (OpenWeatherMap API)
-├── assets/                     # README preview screenshots
-├── install.sh                  # One-command installer (deps, fonts, config setup)
-├── StartFluxPro.vbs            # Windows autostart script (fully portable, no edits needed)
+│       └── weather.sh
+├── assets/
+├── install.sh
+├── StartFluxPro.vbs
 ├── LICENSE
-└── README.md
+├── README.md
+└── .gitignore
 ```
 
----
+## Requirements
 
-## 🛠️ Prerequisites
+### Windows / WSL setup
 
-- **WSL2** with a Linux distro (Ubuntu recommended) — or a native Linux desktop
-- **Conky** (`conky-all` package)
-- **Python 3** — for weather data parsing
-- **curl** — weather API fallback
-- **NVIDIA drivers** + `nvidia-smi` — for GPU monitoring (optional)
-- **X display** — WSLg on Windows 11, or a native X11/Wayland session
+- Windows 11 with WSL2
+- WSLg-enabled Linux distro
+- Ubuntu recommended
+- Internet connection for package install and weather data
 
----
+### Linux packages
 
-## 🚀 Installation
+install.sh installs these automatically:
 
-### Option A — One-command install (recommended)
+- conky-all
+- python3
+- curl
+- x11-utils
+
+### Optional
+
+- NVIDIA drivers and nvidia-smi for GPU stats
+- OpenWeather API key for live weather
+
+## Installation
+
+### Recommended
 
 ```bash
 git clone https://github.com/Rai-Anish/FluxPro.git
@@ -74,132 +79,236 @@ cd FluxPro
 bash install.sh
 ```
 
-`install.sh` will:
-1. Install `conky-all` via `apt`
-2. Copy the bundled fonts to `~/.local/share/fonts/` and refresh the font cache
-3. Copy `config.user.example` → `config.user` (only if it doesn't already exist)
-4. Make `start_flux.sh` executable
+The installer will:
 
-### Option B — Manual install
+- Install required packages
+- Install bundled fonts
+- Create Flux/config.user from Flux/config.user.example if missing
+- Set executable permissions for launcher scripts
 
-```bash
-# 1. Clone
-git clone https://github.com/Rai-Anish/FluxPro.git
-cd FluxPro
+## Configuration
 
-# 2. Install Conky
-sudo apt install -y conky-all
+Edit Flux/config.user before first use.
 
-# 3. Install fonts
-mkdir -p ~/.local/share/fonts
-cp Flux/fonts/Dosis/* ~/.local/share/fonts/
-fc-cache -fv
+Example:
 
-# 4. Create your config
-cp Flux/config.user.example Flux/config.user
 ```
-
----
-
-## ⚙️ Configuration
-
-Edit `Flux/config.user` before launching. The file is self-documented:
-
-```bash
-# Flux/config.user
-
-# Your timezone — find yours with: timedatectl list-timezones
 TIMEZONE="Asia/Kathmandu"
-
-# Widget position: top_right | top_left | bottom_right | bottom_left
 ALIGNMENT="top_right"
-
-# Gap from screen edge in pixels (adjust for your resolution/scaling)
 GAP_X=50
 GAP_Y=70
-```
 
-> [!NOTE]
-> `Flux/config.user` is git-ignored so your personal settings are never committed. The provided `config.user.example` tracks default values.
+WINDOW_TYPE="override"
+STARTUP_MODE="auto"
 
-### Weather Configuration
-
-Edit `Flux/config.user` and set your city and API key — **no need to touch `weather.sh`**:
-
-```bash
-# City query: "<CityName>,<2-letter country code>"
 CITY_QUERY="Kathmandu,np"
-
-# Get a free key at https://openweathermap.org/api
-API_KEY="e46d6b1c945f2e9983f0735f8928ea2f" #Replace with your own API key
+API_KEY="your_openweathermap_api_key_here"
 ```
 
-`weather.sh` automatically sources `config.user` at runtime, so this is the only file you need to edit.
+### Config options
 
----
+- TIMEZONE: your system timezone
+- ALIGNMENT: top_right, top_left, bottom_right, or bottom_left
+- GAP_X, GAP_Y: spacing from the screen edge
+- WINDOW_TYPE: final Conky window mode
+- STARTUP_MODE: auto or direct
+- CITY_QUERY: OpenWeather city query
+- API_KEY: your OpenWeather API key
 
-## ▶️ Running
+## Window Startup Behavior
+
+Flux Pro supports two startup modes:
+
+- STARTUP_MODE="auto"  
+  Recommended. Starts once in normal mode, then switches to your final WINDOW_TYPE. This improves reliability on WSLg where override windows may be invisible on first login.
+
+- STARTUP_MODE="direct"  
+  Starts directly in the configured WINDOW_TYPE.
+
+For most WSLg users, keep:
+
+```
+WINDOW_TYPE="override"
+STARTUP_MODE="auto"
+```
+
+## Running Flux Pro
+
+Start Flux Pro manually with:
 
 ```bash
 bash Flux/start_flux.sh
 ```
 
-`start_flux.sh` will:
-1. Read `Flux/config.user`
-2. Substitute all `__PLACEHOLDER__` values in `Flux.conf.template` → generate `Flux.conf`
-3. Wait up to 60 seconds for the X display to be ready
-4. Kill any existing Conky instances
-5. Launch Conky in the background and confirm it started (check `/tmp/fluxpro.log` on failure)
+The launcher will:
 
----
+- Read Flux/config.user
+- Generate Flux/Flux.conf from the template
+- Wait for the display server to become ready
+- Stop any older Conky process
+- Start Flux Pro and write logs to /tmp/fluxpro.log
 
-## 🪟 Auto-start on Boot (Windows / WSL2)
+## Startup Methods
 
-`StartFluxPro.vbs` in the repo root is a **fully portable** Windows Script that launches Flux Pro silently at login — no edits required.
+Flux Pro supports two Windows startup methods.
 
-### Setup
+### Method 1: Startup Folder (simpler but less reliable)
 
-1. Press `Win + R`, type `shell:startup`, hit Enter — your Windows Startup folder opens.
-2. Copy `StartFluxPro.vbs` from the repo root into that folder.
-3. Done. The script auto-detects everything at runtime:
+This is the simplest option.
 
-| What | How |
-|---|---|
-| WSL username | `wsl whoami` |
-| Project path | `wsl wslpath` converts the script's own Windows location to a WSL path |
+Press ```Win + R```
+Run ```shell:startup```  
+Copy StartFluxPro.vbs into the Startup folder
 
-> [!NOTE]
-> The script targets your **default WSL distro**. If you need a specific distro, open `StartFluxPro.vbs` and add `-d <DistroName>` to the `wsl.exe` call (e.g. `-d Ubuntu`).
+At login, Windows will run the VBS file, which:
+- resolves its own folder path
+- converts that path to WSL format
+- detects your default WSL username
+- launches Flux/start_flux.sh silently
 
----
+Note: What I found is this method is not that reliable  because it fires before WSLg is ready — bump your VBS sleep to compensate: ```WScript.Sleep 30000  ' 30 seconds at startup or even 1min if your wsl is taking longer to fireup```
 
-## 🖥️ Compatibility Notes
+### Method 2: Task Scheduler (reccomended)
 
-| Environment | Notes |
-|---|---|
-| **WSLg / Windows 11** | Primary target. Uses `powershell.exe` for CPU/RAM stats and `wslpath` for path resolution. |
-| **Native Linux** | Fully supported. Replace the `powershell.exe` `execi` blocks in `Flux.conf.template` with standard Conky variables (`${cpu}`, `${memperc}`, etc.). |
-| **No NVIDIA GPU** | Remove or comment out the `GRAPHICS` section in `Flux.conf.template`. |
+Use this if you want more control over timing and privileges.
 
----
+Press ```Win + R```  
+Run ```taskschd.msc```  
+Click Create Task
 
-## 🐛 Troubleshooting
+#### General tab
 
-| Problem | Fix |
-|---|---|
-| Conky doesn't start | Run `bash Flux/start_flux.sh` manually and check the output |
-| Conky crashes silently | Check `/tmp/fluxpro.log` for errors |
-| `config.user not found` | Run `cp Flux/config.user.example Flux/config.user` |
-| Fonts look wrong | Run `fc-cache -fv` and restart Conky |
-| Weather shows `N/A` | Check `API_KEY` and `CITY_QUERY` in `Flux/config.user` |
-| VBS script does nothing | Ensure WSL is installed and `wslpath` is available (`wsl wslpath .`) |
+Name: Flux Pro  
+Description: Start Flux Pro on login  
+Select Run only when user is logged on  
+Enable Run with highest privileges
 
----
+#### Triggers tab
 
-## 📄 License
+Create a new trigger with:
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+- Begin the task: At log on
+- Specific user: your Windows account
+- Delay task for: 30 seconds or 1 minute
+- Enabled: checked
 
----
+#### Actions tab
 
-*Created with ❤️ by Anish*
+Create a new action with:
+
+- Action: Start a program
+- Program/script: wscript.exe
+- Add arguments: full Windows path to StartFluxPro.vbs
+
+Example:
+
+```
+"C:\Users\Anish\Documents\FluxPro\StartFluxPro.vbs"
+```
+
+#### Important note
+
+Do not point Task Scheduler directly to a \\wsl.localhost\... UNC path if you can avoid it. It is more reliable to keep the repository in a normal Windows-accessible folder and reference the local Windows path to StartFluxPro.vbs.
+
+## WSLg Notes
+
+Flux Pro is optimized for WSLg.
+
+On some systems, Conky with own_window_type = 'override' may start invisibly immediately after login even though the process is running. Flux Pro works around this by supporting:
+
+```
+WINDOW_TYPE="override"
+STARTUP_MODE="auto"
+```
+
+That warm-up sequence makes startup more reliable without forcing users to permanently use normal mode.
+
+## Logs and Debugging
+
+Flux Pro writes logs here:
+
+```
+/tmp/fluxpro.log
+```
+
+If startup from Windows is failing, also check:
+
+```
+/tmp/fluxpro-launch.log
+```
+
+Useful commands:
+
+```bash
+bash Flux/start_flux.sh
+cat /tmp/fluxpro.log
+```
+
+## Troubleshooting
+
+### Flux Pro says it started but nothing is visible
+
+This is usually a WSLg window-mapping issue. Set:
+
+```
+WINDOW_TYPE="override"
+STARTUP_MODE="auto"
+```
+
+If needed, temporarily test with:
+
+```
+WINDOW_TYPE="normal"
+STARTUP_MODE="direct"
+```
+
+### Weather shows N/A
+
+Check:
+
+- API_KEY
+- CITY_QUERY
+- internet connectivity
+
+### Fonts look incorrect
+
+Rebuild the font cache:
+
+```bash
+fc-cache -fv
+```
+
+Then restart Flux Pro.
+
+### GPU section fails
+
+If your system does not have nvidia-smi, remove or comment out the GPU block in Flux/Flux.conf.template.
+
+### config.user not found
+
+Run:
+
+```bash
+cp Flux/config.user.example Flux/config.user
+```
+
+### Startup script does nothing
+
+Check that:
+
+- WSL is installed
+- your default distro works
+- wsl whoami succeeds from Windows
+- StartFluxPro.vbs is being called with a normal Windows file path
+
+## Security Note
+
+Do not commit your personal Flux/config.user. It may contain your API key and local preferences. The repository is set up to ignore it by default.
+
+## License
+
+Released under the MIT License.
+
+## Author
+
+Created by Anish.

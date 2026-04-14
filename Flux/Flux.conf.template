@@ -11,7 +11,7 @@ conky.config = {
 
     -- Window Settings
     own_window = true,
-    own_window_type = 'override',
+    own_window_type = '__WINDOW_TYPE__',
     own_window_transparent = true,
     own_window_argb_visual = true,
     own_window_argb_value = 0,
@@ -31,20 +31,20 @@ conky.config = {
     uppercase = true,
     override_utf8_locale = true,
 
-    -- Color Palette (Dracula-inspired)
+    -- Color Palette
     default_color = 'FFFFFF',
     color1 = 'FFFFFF',
-    color2 = 'F1FA8C', -- Yellow
-    color3 = 'FF79C6', -- Pink
-    color4 = '50FA7B', -- Green
-    color5 = '8BE9FD', -- Cyan
-    color6 = 'BD93F9', -- Purple
+    color2 = 'F1FA8C',
+    color3 = 'FF79C6',
+    color4 = '50FA7B',
+    color5 = '8BE9FD',
+    color6 = 'BD93F9',
 }
 
 conky.text = [[
 ${execi 600 bash __BASE_PATH__/scripts/weather.sh -g}\
-${voffset 15}${alignr 40}${color1}${font Outfit:bold:size=48}${tztime __TIMEZONE__ %I:%M}${font Outfit:bold:size=24}${tztime Asia/Kathmandu %^p}${font}
-${voffset 5}${alignr 40}${color5}${font Outfit:bold:size=16}${tztime Asia/Kathmandu %A, %B %d}${font}
+${voffset 15}${alignr 40}${color1}${font Outfit:bold:size=48}${tztime __TIMEZONE__ %I:%M}${font Outfit:bold:size=24}${tztime __TIMEZONE__ %^p}${font}
+${voffset 5}${alignr 40}${color5}${font Outfit:bold:size=16}${tztime __TIMEZONE__ %A, %B %d}${font}
 
 ${voffset 40}${alignr 40}${color2}${font Outfit:black:size=18}SYSTEM${font}
 ${voffset 5}${alignr 40}${color2}${font Dosis:bold:size=12}― · ― · ― · ― · ― · ― · ― · ―${font}
@@ -70,3 +70,4 @@ ${voffset 10}${alignr 40}${color5}${font Outfit:bold:size=13}SYSTEM STATUS ${col
 ${voffset 5}${alignr 40}${color5}${font Outfit:bold:size=13}TOTAL TIME ${color1}${font Outfit:bold:size=14}${uptime}${font}
 ${image __BASE_PATH__/res/foo.png -p 580,670 -s 3x60}\
 ]]
+

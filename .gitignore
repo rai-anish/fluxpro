@@ -9,6 +9,7 @@ Flux/config.user
 # Weather data cache
 ~/.cache/weather.json
 .cache/
+*.log
 
 # OS noise
 .DS_Store
