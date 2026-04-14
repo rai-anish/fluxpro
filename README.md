@@ -69,7 +69,7 @@ FluxPro/
 ### Option A — One-command install (recommended)
 
 ```bash
-git clone https://github.com/your-username/FluxPro.git
+git clone https://github.com/Rai-Anish/FluxPro.git
 cd FluxPro
 bash install.sh
 ```
@@ -84,7 +84,7 @@ bash install.sh
 
 ```bash
 # 1. Clone
-git clone https://github.com/your-username/FluxPro.git
+git clone https://github.com/Rai-Anish/FluxPro.git
 cd FluxPro
 
 # 2. Install Conky
