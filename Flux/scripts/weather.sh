@@ -1,5 +1,5 @@
 #!/bin/bash
-# weather.sh — Written for WeatherAPI.com (Flux Pro v1.0.0)
+# weather.sh — Written for WeatherAPI.com (Flux Pro v1.1.0)
 
 set -euo pipefail
 

@@ -1,4 +1,4 @@
-# Flux Pro `v1.0.0`
+# Flux Pro `v1.1.0`
 
 A polished Conky dashboard for WSLg and modern Linux desktops. Flux Pro combines a clean timeline layout, transparent desktop styling, live weather, and hardware monitoring in a portable package that can be installed, configured, and started with minimal setup.
 
@@ -18,9 +18,9 @@ A polished Conky dashboard for WSLg and modern Linux desktops. Flux Pro combines
 - Portable WSL-friendly launcher with `StartFluxPro.vbs`
 - Template-based Conky config generation
 - Automatic WSLg-safe startup fallback for `override` windows
-- OpenWeather integration with PowerShell and `curl` fallback
+- WeatherApi integration with PowerShell and `curl` fallback
 - Real-time Battery monitoring (Percentage & Charging/DC status)
-- Network Connectivity tracking (WiFi SSID & Live Download Speed)
+- Network Connectivity tracking (WiFi SSID & Liv Download and Upload Speed)
 - CPU and memory monitoring tuned for WSL accuracy via PowerShell bridge
 - NVIDIA GPU utilization and temperature support
 - Bundled font installation
