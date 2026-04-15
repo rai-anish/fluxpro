@@ -36,6 +36,10 @@ if [[ ! -f "$TEMPLATE_FILE" ]]; then
     exit 1
 fi
 
+# Generate Flux.conf from Flux.conf.template with given WINDOW_TYPE.
+# $1: WINDOW_TYPE (override, normal, etc.)
+# Generates Flux.conf at $CONF_FILE and logs the generation.
+#
 generate_conf() {
     local mode="$1"
     sed \
@@ -49,6 +53,11 @@ generate_conf() {
     echo "[$(date)] Flux.conf generated with WINDOW_TYPE=$mode at $CONF_FILE" >> "$LOG"
 }
 
+# Check if the display is ready to accept Conky.
+#
+# Checks if a temporary X11 socket file exists or if xdpyinfo is available.
+# This is a workaround to detect if the display server is fully initialized.
+# Flux Pro will not start until this condition is met to ensure a smooth startup.
 display_ready() {
     [[ -S "/tmp/.X11-unix/X0" ]] && return 0
     command -v xdpyinfo >/dev/null 2>&1 && xdpyinfo >/dev/null 2>&1 && return 0
@@ -72,6 +81,7 @@ fi
 killall conky 2>/dev/null || true
 sleep 1
 
+# Safe startup sequence: normal -> override
 if [[ "$STARTUP_MODE" == "auto" && "$WINDOW_TYPE" == "override" ]]; then
     echo "[$(date)] Safe startup sequence: normal -> override" >> "$LOG"
 

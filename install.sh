@@ -65,6 +65,11 @@ else
     echo "   weather.sh not found — skipping"
 fi
 
+if [[ -f "$BASE_DIR/launch_from_windows.sh" ]]; then
+    chmod +x "$BASE_DIR/launch_from_windows.sh"
+    echo "   launch_from_windows.sh marked executable"
+fi
+
 echo ""
 echo "▶ Checking optional Windows startup helper..."
 if [[ -f "$BASE_DIR/StartFluxPro.vbs" ]]; then
