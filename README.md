@@ -19,7 +19,9 @@ A polished Conky dashboard for WSLg and modern Linux desktops. Flux Pro combines
 - Template-based Conky config generation
 - Automatic WSLg-safe startup fallback for `override` windows
 - OpenWeather integration with PowerShell and `curl` fallback
-- CPU and memory monitoring tuned for WSL accuracy
+- Real-time Battery monitoring (Percentage & Charging/DC status)
+- Network Connectivity tracking (WiFi SSID & Live Download Speed)
+- CPU and memory monitoring tuned for WSL accuracy via PowerShell bridge
 - NVIDIA GPU utilization and temperature support
 - Bundled font installation
 - User configuration kept separate from tracked files
@@ -68,6 +70,7 @@ install.sh installs these automatically:
 
 - NVIDIA drivers and nvidia-smi for GPU stats
 - OpenWeather API key for live weather
+- **Laptop Battery:** Requires a battery-enabled device (won't show data on Desktops).
 
 ## Installation
 
@@ -114,6 +117,21 @@ API_KEY="your_openweathermap_api_key_here"
 - STARTUP_MODE: auto or direct
 - CITY_QUERY: OpenWeather city query
 - API_KEY: your OpenWeather API key
+
+...
+### Config options
+- TIMEZONE: your system timezone
+- ... (rest of your list)
+
+## Performance Tuning
+Flux Pro uses a "PowerShell Bridge" to pull hardware data (CPU, Battery, Network) from Windows into WSL. To balance responsiveness with CPU efficiency, the following logic is used:
+
+- **The Clock:** Updates every `1` second for real-time accuracy.
+- **Hardware Stats:** Use `execi` intervals (5–20 seconds). This prevents the "process spawning" of `powershell.exe` from lagging your system.
+- **Weather:** Updates every `600` seconds to stay within free API rate limits.
+
+> **Tip:** If you are on a lower-end laptop and notice Conky "flickering," open `Flux/Flux.conf.template` and change `update_interval` from `1` to `2`.
+
 
 ## Window Startup Behavior
 
@@ -166,7 +184,13 @@ At login, Windows will run the VBS file, which:
 - detects your default WSL username
 - launches Flux/start_flux.sh silently
 
-Note: What I found is this method is not that reliable  because it fires before WSLg is ready — bump your VBS sleep to compensate: ```WScript.Sleep 30000  ' 30 seconds at startup or even 1min if your wsl is taking longer to fireup```
+#### Important Note on WSLg Latency
+The Startup folder method can be less reliable because Windows often executes these scripts before the WSLg display server is fully initialized. 
+
+If Flux Pro does not appear after login:
+- **Increase the Sleep Timer:** Edit `StartFluxPro.vbs` and increase the `WScript.Sleep` value.
+  ```vbs
+  WScript.Sleep 45000  ' Increase to 45 or 60 seconds
 
 ### Method 2: Task Scheduler (reccomended)
 
@@ -203,7 +227,7 @@ Create a new action with:
 Example:
 
 ```
-"C:\Users\Anish\Documents\FluxPro\StartFluxPro.vbs"
+"C:\Users\<YourUserName>\Documents\FluxPro\StartFluxPro.vbs"
 ```
 
 #### Important note
@@ -300,6 +324,11 @@ Check that:
 - your default distro works
 - wsl whoami succeeds from Windows
 - StartFluxPro.vbs is being called with a normal Windows file path
+
+### WiFi/Battery shows N/A or stays blank
+- **Adapter Name:** The script looks for a Windows adapter named `'Wi-Fi'`. If your adapter is named "Wireless Network Connection", rename it in Windows Network Settings or update the string in the template.
+- **Desktop Users:** Battery status will naturally be empty on desktop PCs.
+- **PowerShell Execution:** Ensure your Windows user has permission to run basic PowerShell commands (standard on most systems).
 
 ## Security Note
 
