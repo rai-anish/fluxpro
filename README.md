@@ -1,4 +1,4 @@
-# Flux Pro
+# Flux Pro `v1.0.0`
 
 A polished Conky dashboard for WSLg and modern Linux desktops. Flux Pro combines a clean timeline layout, transparent desktop styling, live weather, and hardware monitoring in a portable package that can be installed, configured, and started with minimal setup.
 
