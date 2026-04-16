@@ -5,13 +5,13 @@ A polished Conky dashboard for WSLg and modern Linux desktops. Flux Pro combines
 ## Preview
 
 ### Setup 1
-![Flux Pro Preview 1](assets/lofi.jpg)
+![Flux Pro Preview 1](assets/zen.jpg)
 
 ### Setup 2
-![Flux Pro Preview 2](assets/retro.png)
+![Flux Pro Preview 2](assets/retro_gaming.jpg)
 
 ### Setup 3
-![Flux Pro Preview 3](assets/pokemon.png)
+![Flux Pro Preview 3](assets/zen.jpg)
 
 ## Features
 
