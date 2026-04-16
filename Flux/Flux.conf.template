@@ -50,13 +50,13 @@ ${voffset 40}${alignr 40}${color2}${font Outfit:black:size=18}SYSTEM${font}
 ${voffset 5}${alignr 40}${color2}${font Dosis:bold:size=12}― · ― · ― · ― · ― · ― · ― · ―${font}
 ${voffset 10}${alignr 40}${color5}${font Outfit:bold:size=13}CPU LOAD ${color1}${font Outfit:bold:size=14}${execi 5 powershell.exe -c "[math]::Round((Get-Counter '\Processor Information(_Total)\% Processor Utility').CounterSamples.CookedValue)" | tr -d '\r'}%${font}
 ${voffset 5}${alignr 40}${color5}${font Outfit:bold:size=13}MEMORY ${color1}${font Outfit:bold:size=14}${execi 10 powershell.exe -c "(Get-CimInstance Win32_OperatingSystem | ForEach-Object { [math]::Round(((\$_.TotalVisibleMemorySize - \$_.FreePhysicalMemory)*100 / \$_.TotalVisibleMemorySize)) })" | tr -d '\r'}%${font}
-${image __BASE_PATH__/res/sys.png -p 580,181 -s 3x60}\
+${image __BASE_PATH__/res/sys.png -p 580,185 -s 3x80}\
 
 ${voffset 35}${alignr 40}${color3}${font Outfit:black:size=18}GRAPHICS${font}
 ${voffset 5}${alignr 40}${color3}${font Dosis:bold:size=12}― · ― · ― · ― · ― · ― · ― · ― · ― · ―${font}
 ${voffset 10}${alignr 40}${color5}${font Outfit:bold:size=13}GPU UTIL ${color1}${font Outfit:bold:size=14}${execi 5 nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits}%${font}
 ${voffset 5}${alignr 40}${color5}${font Outfit:bold:size=13}TEMP ${color1}${font Outfit:bold:size=14}${execi 5 nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits}°C${font}
-${image __BASE_PATH__/res/gpu.png -p 580,342 -s 3x60}\
+${image __BASE_PATH__/res/gpu.png -p 580,350 -s 3x80}\
 
 ${voffset 35}${alignr 40}${color6}${font Outfit:black:size=18}STATUS${font}
 ${voffset 5}${alignr 40}${color6}${font Dosis:bold:size=12}― · ― · ― · ― · ― · ― · ― · ― · ―${font}
@@ -64,12 +64,12 @@ ${voffset 10}${alignr 40}${color5}${font Outfit:bold:size=13}BATTERY ${color1}${
 ${voffset 5}${alignr 40}${color5}${font Outfit:bold:size=13}NET WIFI ${color1}${font Outfit:bold:size=14}${execi 5 powershell.exe -c "if((Get-NetAdapter -Name 'Wi-Fi').Status -eq 'Up'){'ONLINE'}else{'OFFLINE'}" | tr -d '\r'}${font}
 ${voffset 5}${alignr 40}${color5}${font Outfit:bold:size=13}DL/UL ${color1}${font Outfit:bold:size=14}↓${execi 5 powershell.exe -c "[math]::Round(((Get-Counter '\Network Interface(*)\Bytes Received/sec').CounterSamples | Measure-Object -Property CookedValue -Sum).Sum * 8 / 1MB, 1)" | tr -d '\r'}Mb  ↑${execi 5 powershell.exe -c "[math]::Round(((Get-Counter '\Network Interface(*)\Bytes Sent/sec').CounterSamples | Measure-Object -Property CookedValue -Sum).Sum * 8 / 1MB, 1)" | tr -d '\r'}Mb${font}
 ${voffset 5}${alignr 40}${color5}${font Outfit:bold:size=13}UPTIME ${color1}${font Outfit:bold:size=14}${uptime_short}${font}
-${image __BASE_PATH__/res/wth.png -p 580,503 -s 3x115}\
+${image __BASE_PATH__/res/wth.png -p 580,553 -s 3x80}\
 
 ${voffset 35}${alignr 40}${color5}${font Outfit:black:size=18}WEATHER${font}
 ${image ~/.cache/weather_icon.png -p 373,712 -s 45x45}\
 ${voffset 5}${alignr 40}${color5}${font Dosis:bold:size=12}― · ― · ― · ― · ― · ― · ― · ― · ― · ―${font}
 ${voffset 10}${alignr 40}${color5}${font Outfit:bold:size=13}CONDITION ${color1}${font Outfit:bold:size=14}${execi 600 bash __BASE_PATH__/scripts/weather.sh -d}${font}
 ${voffset 5}${alignr 40}${color5}${font Outfit:bold:size=13}TEMP ${color1}${font Outfit:bold:size=14}${execi 600 bash __BASE_PATH__/scripts/weather.sh -t}°C (H:${execi 600 bash __BASE_PATH__/scripts/weather.sh -tx}° L:${execi 600 bash __BASE_PATH__/scripts/weather.sh -tn}°)${font}
-${image __BASE_PATH__/res/foo.png -p 580,664 -s 3x80}\
+${image __BASE_PATH__/res/foo.png -p 580,730 -s 3x80}\
 ]]
